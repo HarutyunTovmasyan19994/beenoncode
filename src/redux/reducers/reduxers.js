@@ -2,7 +2,7 @@ import {CHANGE_POPUP,CHANGE_CATEMANWOM,ADD_PRUDUCT,ADDD_CATEGORY} from "../actio
 
 const defaultState = {
     product:{},
-    categories:[],
+    user:[],
     popup:false,
     cagetMan:false,
     cagetWon:true   
@@ -12,15 +12,14 @@ const defaultState = {
 
 const reducers = (state = defaultState,action)=>{
     switch(action.type){
-        case ADDD_CATEGORY:
-            return {categories:[...state.categories,action.payload]}
         case CHANGE_POPUP:
-            return {...state.popup,popup:action.payload}
+            return {...state,popup:action.payload}
         case CHANGE_CATEMANWOM:
-            return {...state.cagetMan,cagetMan:action.payload}
+            return {...state,cagetMan:action.payload}
         case ADD_PRUDUCT:
             return {...state,product:action.payload}
-        
+        case ADDD_CATEGORY:
+            return {...state,user:[...state.user,action.payload]}
         default:
             return state
     }
