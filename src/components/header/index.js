@@ -4,12 +4,11 @@ import {CHANGE_POPUP,ADD_PRUDUCT,ADDD_CATEGORY} from "../../redux/action/index"
 import WomanSvg from "../../assets/png/SVG/womenSvg"
 import ManSvg from "../../assets/png/SVG/manSvg"
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import Image from "../../assets/png/image.jpg"
+import Image from "../../assets/png/addImage.png"
 import {getBase64} from "../convertImage/index"
 import Modal from "../popup/index"
 import CloseImg from "../../assets/png/Group.png"
 import { useNavigate } from "react-router-dom";
-import {getCategoryies} from "../../redux/action/action"
 import 'react-slideshow-image/dist/styles.css';
 import '@splidejs/react-splide/css';
 import '@splidejs/react-splide/css/skyblue';
@@ -60,18 +59,25 @@ const Header = () =>{
         getBase64(e.target.files[0],setAvatar)
         
     }
-
+    const id = new Date().getTime()
+    console.log(id)
     const handleAdd =()=>{
         if(categoryMW === "женский"){
              dispatch({type:ADD_PRUDUCT,payload:{dataMW:{categoryMW}}})
              dispatch({type:ADDD_CATEGORY,payload:{avatar,category}})
-            // getCategoryies([avatar,category])
              setCategory("")
              dispatch({type:CHANGE_POPUP,payload:"false"})
              navigate("/addProduct") 
         }
+        if(categoryMW === "мужской"){
+            dispatch({type:ADD_PRUDUCT,payload:{dataMW:{categoryMW}}})
+            dispatch({type:ADDD_CATEGORY,payload:{id,avatar,category,}})
+            setCategory("")
+            dispatch({type:CHANGE_POPUP,payload:"false"})
+            navigate("/addProduct") 
+       }
     }
-    console.log(product.user);
+    console.log(product);
     
 
     return(
@@ -102,11 +108,17 @@ const Header = () =>{
                             <div className="imgDiv">
                                 <div>
                                     <img src={avatar} className="addImage" />
-                                    <p> загрузить<br/>
-                                    фото</p>
                                 </div>
                             </div>
-                        ):(  <img src={Image} className="addImage" />)
+                        ):(  
+                            <div className="imgDiv">
+                            <div>
+                                <img src={avatar} className="addImage" />
+                                <p> загрузить<br/>
+                                фото</p>
+                            </div>
+                        </div>
+                        )
                       }
                       </label>
                       <input type="file" id="ImageFile" name="ImageFile" onChange={(e)=>imageHandle(e)}/>
@@ -132,15 +144,15 @@ const Header = () =>{
                     <Splide aria-label="prev" options={{
                          fixedWidth : '10rem',
                          fixedHeight: '6rem',
-                         gap        : '2rem',
+                         gap        : '1rem',
                     }}>
                        {
-                         product?.uesr?.map(item=>(
+                         product.uesr?.map(item=>(
                             <SplideSlide>
                             <div className="categoryBox">
                                 <img src={item.avatar}/>
                                 <p>{item.category}</p>
-                            </div>
+                            </div>5
                         </SplideSlide>
                         ))
                        }

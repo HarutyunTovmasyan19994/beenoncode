@@ -44,7 +44,7 @@
     width: 14.9999%;
 }
 .categoryBox{
-    width: 140px;
+    /* width: 0px; */
     height: 80px;
     background-color: #fff;
     margin: 0 25px;
@@ -181,23 +181,24 @@
     width: 100%;
     height: 100%;
 }
-.imgDiv{
-    width: 100%;
+.imgDiv2{
+    width: 194px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.imgDiv div{
+.imgDiv2 div{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.imgDiv div img{
+.imgDiv2  img{
     width: 30px;
     height: 30px;
 }
-.imgDiv div p{
+.imgDiv2  p{
     font-family: "Montserrat", sans-serif;
     font-size: 20px;
     font-weight: 400;
@@ -205,8 +206,12 @@
     margin-top: 15px;
     text-align: center;
 }
-.categoryImg label{
+.imgDiv{
     width: 100%;
+}
+
+.categoryImg label{
+    width: 194px;
     height: 100%;
     cursor: pointer;
 }
@@ -229,4 +234,64 @@
     line-height: 19.5px;
     color: white;
     cursor: pointer;
+}
+.addProductData{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 56px;
+}
+.addImageGroup{
+    width: 56px;
+    height: 56px;
+}
+.imgAddP{
+    width: 194px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.addImageData{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.addInputs{
+    margin-left: 50px;
+}
+.addInputs input{
+ padding: 5px 0;
+ margin: 0 10px;
+ border: none;
+ border-bottom:1px solid #ACACAC;
+ text-align: left;
+}
+.btnAddProduct{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 15px;
+}   
+.common{
+    width: 860px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+.btnAddProduct button{
+    width: 150px;
+    height: 32px;
+    padding: 0 10px;
+    border: none;
+    border-radius: 25px;
+    background-color: #0008C1;
+    color: #fff;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    line-height: 19.5px;
 }

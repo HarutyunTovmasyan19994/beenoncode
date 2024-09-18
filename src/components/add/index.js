@@ -4,7 +4,8 @@ import {CHANGE_POPUP,ADD_PRUDUCT,ADDD_CATEGORY} from "../../redux/action/index"
 import WomanSvg from "../../assets/png/SVG/womenSvg"
 import ManSvg from "../../assets/png/SVG/manSvg"
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import {getCategoryies} from "../../redux/action/action"
+import Image from "../../assets/png/addImage.png"
+import {getBase64} from "../convertImage/index"
 import 'react-slideshow-image/dist/styles.css';
 import '@splidejs/react-splide/css';
 import '@splidejs/react-splide/css/skyblue';
@@ -16,11 +17,9 @@ import './style.css'
 const AddProduct = ()=>{
     const [fillFirst,setFillFirst] = useState("#0008C1")
     const [fillSecond,setFillSecond] = useState("#939393")
-    const [fillFirstMan,setFillFirstMan] = useState("#0008C1")
-    const [fillSecondWom,setFillSecondWom] = useState("#939393")
-    const [avatar,setAvatar] = useState("")
+    const [artikulName,setArtikuleName] = useState({artikul:"",name:""})
+    const [avatarAdd,setAvatarAdd] = useState("")
     const [categoryMW,setCategoryMW] = useState("женский")
-    const [category,setCategory] = useState("")
     const product = useSelector(state=>state.product)
     
     const dispatch = useDispatch()
@@ -37,19 +36,26 @@ const AddProduct = ()=>{
     }
     const handlecateSvg = (text)=>{
         if(text === "woman"){
-            setFillFirstMan("#0008C1")
-            setFillSecondWom("#939393")
             setCategoryMW("женский")
         }
         if(text === "man"){
-            setFillSecondWom("#0008C1")
-            setFillFirstMan("#939393")
             setCategoryMW("мужской")
         }
     }
-    console.log(product);
+    const imageHandleMulitiple =(e)=>{
+        getBase64(e.target.files[0],setAvatarAdd)
+        
+    }
+    const handleInput = (e)=>{
+        const {name,value} = e.target
+        setArtikuleName({...artikulName,[name]:value})
+    }
+
+    console.log(artikulName,"555");
     
     return(
+        <div className="common">
+            <div>
         <div className="headerApp">
                 <div className="iconsDiv">
                     <div className="womanSvg" onClick={()=>handleSvg("woman")}>
@@ -62,9 +68,9 @@ const AddProduct = ()=>{
                 <div className="boxes">
                     <div>
                     <Splide aria-label="prev" options={{
-                         fixedWidth : '10rem',
-                         fixedHeight: '6rem',
-                         gap        : '2rem',
+                         fixedWidth : '9rem',
+                         fixedHeight: '5rem',
+                         gap        : '1rem',
                     }}>
                        {
                          product?.user?.map(item=>(
@@ -72,6 +78,7 @@ const AddProduct = ()=>{
                             <div className="categoryBox">
                                 <img src={item.avatar}/>
                                 <p>{item.category}</p>
+                                <p>{item.id}</p>
                             </div>
                         </SplideSlide>
                         ))
@@ -79,11 +86,45 @@ const AddProduct = ()=>{
                     </Splide>
                     </div>
                 </div>
-                <div className="btnDiv">
-                    <button className="btnAdd" onClick={()=>dispatch({type:CHANGE_POPUP,payload:true})}>+</button>
+            </div>
+
+            <div className="addProductData">
+                <div className="addImageData">
+                <div className="categoryImg" for="ImageFile">
+                      <label htmlFor="ImageFile" > {
+                        avatarAdd ? (
+                            <div className="imgDiv">
+                                <div>
+                                    <img src={avatarAdd} className="addImage" />
+                                </div>
+                            </div>
+                        ):(   
+                            <div className="imgDiv">
+                            <div>
+                                <img src={Image} className="addImage" />
+                                <p> загрузить<br/>
+                                фото</p>
+                            </div>
+                        </div>
+                        )
+                      }
+                      </label>
+                      <input type="file" id="ImageFile" name="ImageFile" onChange={(e)=>imageHandleMulitiple(e)} />
+                    </div>
+                    
+                </div>
+                <div className="addProductName">
+                    <div className="addInputs">
+                       <input type="text" placeholder="Артикул" name="artikul" value={artikulName.artikul} onChange={(e)=>handleInput(e)}/>
+                       <input type="text" placeholder="Цена " name="name" value={artikulName.name} onChange={(e)=>handleInput(e)}/>
+                    </div>
                 </div>
             </div>
-        
+            <div className="btnAddProduct">
+                      <button>Добавить</button>
+            </div>
+            </div>
+        </div>
     )
 }
 
