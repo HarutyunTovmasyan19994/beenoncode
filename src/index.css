@@ -3,6 +3,5 @@
   padding: 0;
   box-sizing: border-box;
   background-color: #E6E6E6;
- /* margin: 0 auto; */
- overflow: hidden;
+ overflow-x: hidden;
 }

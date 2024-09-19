@@ -43,7 +43,7 @@
 .btnDiv{
     width: 14.9999%;
 }
-.categoryBox{
+.categoryBox1{
     /* width: 0px; */
     height: 80px;
     background-color: #fff;
@@ -54,6 +54,7 @@
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
 }
 .boxes{
     width: 54.3333%;

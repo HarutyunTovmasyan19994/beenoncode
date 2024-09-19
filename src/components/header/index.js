@@ -24,7 +24,7 @@ const Header = () =>{
     const [fillFirstMan,setFillFirstMan] = useState("#0008C1")
     const [fillSecondWom,setFillSecondWom] = useState("#939393")
     const [avatar,setAvatar] = useState("")
-    const [categoryMW,setCategoryMW] = useState("женский")
+    const [categoryMW,setCategoryMW] = useState("woman")
     const [category,setCategory] = useState("")
     const product = useSelector(state=>state.product)
     const dispatch = useDispatch()
@@ -35,22 +35,24 @@ const Header = () =>{
         if(text === "woman"){
             setFillFirst("#0008C1")
             setFillSecond("#939393")
+            setCategoryMW("woman")
         }
         if(text === "man"){
             setFillSecond("#0008C1")
             setFillFirst("#939393")
+            setCategoryMW("man")
         }
     }
     const handlecateSvg = (text)=>{
         if(text === "woman"){
             setFillFirstMan("#0008C1")
             setFillSecondWom("#939393")
-            setCategoryMW("женский")
+            setCategoryMW("woman")
         }
         if(text === "man"){
             setFillSecondWom("#0008C1")
             setFillFirstMan("#939393")
-            setCategoryMW("мужской")
+            setCategoryMW("man")
         }
     }
 
@@ -60,11 +62,12 @@ const Header = () =>{
         
     }
     const id = new Date().getTime()
-    console.log(id)
+    console.log(categoryMW)
+    
     const handleAdd =()=>{
         if(categoryMW === "женский"){
              dispatch({type:ADD_PRUDUCT,payload:{dataMW:{categoryMW}}})
-             dispatch({type:ADDD_CATEGORY,payload:{avatar,category}})
+             dispatch({type:ADDD_CATEGORY,payload:{avatar,category,id}})
              setCategory("")
              dispatch({type:CHANGE_POPUP,payload:"false"})
              navigate("/addProduct") 
@@ -147,12 +150,12 @@ const Header = () =>{
                          gap        : '1rem',
                     }}>
                        {
-                         product.uesr?.map(item=>(
+                         product?.uesr?.map(item=>(
                             <SplideSlide>
                             <div className="categoryBox">
                                 <img src={item.avatar}/>
                                 <p>{item.category}</p>
-                            </div>5
+                            </div>
                         </SplideSlide>
                         ))
                        }
@@ -164,11 +167,52 @@ const Header = () =>{
                 </div>
             </div>
         </div>
-        
+        <div className="productData">
+            {/* {product.productData?.map(item=>{
+                if(item)
+            }} */}
+            {
+                product.productData?.map(item=>{
+                    if(item.categoryMW === categoryMW){
+                        return(
+                            <div className="productDIv">
+                   <div className="imgDiv1">
+                        <img src={item.avatarAdd}/>
+                   </div>
+                   <div className="infoDiv">
+                    <p>{item.artikul}</p>
+                    <p>{item.name}{" "}$</p>
+                   </div>
+                </div>
+                        )
+                    } if(item.categoryMW === categoryMW){
+                        return(
+                            <div className="productDIv">
+                   <div className="imgDiv1">
+                        <img src={item.avatarAdd}/>
+                   </div>
+                   <div className="infoDiv">
+                    <p>{item.artikul}</p>
+                    <p>{item.name}{" "}$</p>
+                   </div>
+                </div>
+                        )
+                    }
+                })
+            }
+        </div>
         </>
     )
 }
 
 export default Header
 
-
+{/* <div className="productDIv">
+                   <div className="imgDiv1">
+                        <img src={item.avatarAdd}/>
+                   </div>
+                   <div className="infoDiv">
+                    <p>{item.artikul}</p>
+                    <p>{item.name}{" "}$</p>
+                   </div>
+                </div> */}

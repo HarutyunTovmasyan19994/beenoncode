@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import {CHANGE_POPUP,ADD_PRUDUCT,ADDD_CATEGORY} from "../../redux/action/index"
+import {PRODUCT_DATA,CHANGE_POPUP} from "../../redux/action/index"
 import WomanSvg from "../../assets/png/SVG/womenSvg"
 import ManSvg from "../../assets/png/SVG/manSvg"
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import Image from "../../assets/png/addImage.png"
 import {getBase64} from "../convertImage/index"
+import { useNavigate } from "react-router-dom";
 import 'react-slideshow-image/dist/styles.css';
 import '@splidejs/react-splide/css';
 import '@splidejs/react-splide/css/skyblue';
@@ -19,8 +20,10 @@ const AddProduct = ()=>{
     const [fillSecond,setFillSecond] = useState("#939393")
     const [artikulName,setArtikuleName] = useState({artikul:"",name:""})
     const [avatarAdd,setAvatarAdd] = useState("")
-    const [categoryMW,setCategoryMW] = useState("женский")
+    const [categoryName,setCategoryName] = useState("")
+    const [categoryMW,setCategoryMW] = useState("woman")
     const product = useSelector(state=>state.product)
+    const navigate = useNavigate()
     
     const dispatch = useDispatch()
 
@@ -28,20 +31,15 @@ const AddProduct = ()=>{
         if(text === "woman"){
             setFillFirst("#0008C1")
             setFillSecond("#939393")
+            setCategoryMW("woman")
         }
         if(text === "man"){
             setFillSecond("#0008C1")
             setFillFirst("#939393")
+            setCategoryMW("man")
         }
     }
-    const handlecateSvg = (text)=>{
-        if(text === "woman"){
-            setCategoryMW("женский")
-        }
-        if(text === "man"){
-            setCategoryMW("мужской")
-        }
-    }
+
     const imageHandleMulitiple =(e)=>{
         getBase64(e.target.files[0],setAvatarAdd)
         
@@ -51,8 +49,34 @@ const AddProduct = ()=>{
         setArtikuleName({...artikulName,[name]:value})
     }
 
-    console.log(artikulName,"555");
+    const handleCategory = (info) =>{
+        product?.user?.filter(item=>{
+            if(item.id === info.id){
+                setCategoryName(item.category)
+            }
+        })
+        
+    }
     
+
+    const AddClickHandle = ()=>{
+        const data ={
+            avatarAdd,
+            ...artikulName,
+            categoryMW,
+            categoryName,
+        }
+        dispatch({type:PRODUCT_DATA,payload:data})
+        dispatch({type:CHANGE_POPUP,payload:false})
+        setArtikuleName({artikul:"",name:""})
+
+        setAvatarAdd("")
+        navigate("/")
+    }
+    
+    console.log(product);
+    
+
     return(
         <div className="common">
             <div>
@@ -75,10 +99,9 @@ const AddProduct = ()=>{
                        {
                          product?.user?.map(item=>(
                             <SplideSlide>
-                            <div className="categoryBox">
+                            <div className="categoryBox1" onClick={()=>handleCategory(item)}>
                                 <img src={item.avatar}/>
                                 <p>{item.category}</p>
-                                <p>{item.id}</p>
                             </div>
                         </SplideSlide>
                         ))
@@ -121,7 +144,7 @@ const AddProduct = ()=>{
                 </div>
             </div>
             <div className="btnAddProduct">
-                      <button>Добавить</button>
+                      <button onClick={AddClickHandle}>Добавить</button>
             </div>
             </div>
         </div>
